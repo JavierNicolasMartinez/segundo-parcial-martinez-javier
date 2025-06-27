@@ -1,5 +1,9 @@
-import { Router } from "express";
+import express from "express";
+import { createMovie } from "../controllers/movie.controllers.js";
 
-export const router = Router();
+const router = express.Router();
 
+router.post("/movies", createMovie);
 // router.get("/");
+
+export default router;

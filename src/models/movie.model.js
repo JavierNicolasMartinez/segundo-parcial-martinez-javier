@@ -1,4 +1,5 @@
 import { DataTypes } from "sequelize";
+import { sequelize } from "../config/database.js";
 
 const movie = sequelize.define("movie", {
   title: { //título de la pelicula
