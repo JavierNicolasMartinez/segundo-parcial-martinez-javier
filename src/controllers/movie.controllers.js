@@ -11,33 +11,33 @@ export const createMovie = async (req, res) => {
   }
 
   try {
-    // if (title === undefined || title === "") {
-    //   return res
-    //     .status(400)
-    //     .json({ Message: "El título no puede estar vacío" });
-    // }
-    // if (director === undefined || director === "") {
-    //   return res
-    //     .status(400)
-    //     .json({ Message: "El título no puede estar vacío" });
-    // }
-    // if (duration === undefined || duration === "") {
-    //   return res
-    //     .status(400)
-    //     .json({ Message: "El título no puede estar vacío" });
-    // }
-    // if (genre === undefined || genre === "") {
-    //   return res
-    //     .status(400)
-    //     .json({ Message: "El título no puede estar vacío" });
-    // }
+    if (title === undefined || title === "") {
+      return res
+        .status(400)
+        .json({ Message: "El título no puede estar vacío" });
+    }
+    if (director === undefined || director === "") {
+      return res
+        .status(400)
+        .json({ Message: "El título no puede estar vacío" });
+    }
+    if (duration === undefined || duration === "") {
+      return res
+        .status(400)
+        .json({ Message: "El título no puede estar vacío" });
+    }
+    if (genre === undefined || genre === "") {
+      return res
+        .status(400)
+        .json({ Message: "El título no puede estar vacío" });
+    }
 
-    // const durationEntero = Math.floor(duration);
-    // if (duration !== durationEntero) {
-    //   return res.status(400).json({
-    //     Message: "La duracion debe estar en minutos y debe ser entero.",
-    //   });
-    // }
+    const durationEntero = Math.floor(duration);
+    if (duration !== durationEntero) {
+      return res.status(400).json({
+        Message: "La duracion debe estar en minutos y debe ser entero.",
+      });
+    }
 
     const nombreUnico = await MovieModel.findOne({ where: { title } });
     if (nombreUnico !== null) {
@@ -105,13 +105,13 @@ export const updateMovie = async (req, res) => {
     }
 
     if (title) {
-      const nombreUnico = await movie.findOne({ where: { title } });
+      const nombreUnico = await MovieModel.findOne({ where: { title } });
       if (nombreUnico !== null) {
         res.status(400).json({ Mesagge: "Título ya existente." });
       }
     }
 
-    const [updated] = await movie.update(
+    const [updated] = await MovieModel.update(
       { title, director, duration, genre, description },
       { where: { id: req.params.id } }
     );
@@ -126,7 +126,7 @@ export const updateMovie = async (req, res) => {
 
 export const buscarPelis = async (req, res) => {
   try {
-    const pelis = await movie.findAll();
+    const pelis = await MovieModel.findAll();
     if (pelis.length === 0) {
       return res
         .status(404)
@@ -139,7 +139,7 @@ export const buscarPelis = async (req, res) => {
 };
 export const buscarPelisID = async (req, res) => {
   try {
-    const peli = await movie.findByPk(req.params.id);
+    const peli = await MovieModel.findByPk(req.params.id);
     if (peli) {
       return res.status(200).json(peli);
     }
@@ -151,7 +151,7 @@ export const buscarPelisID = async (req, res) => {
 
 export const deleteMovie = async (req, res) => {
   try {
-    const deleted = await movie.destroy({ where: { id: req.params.id } });
+    const deleted = await MovieModel.destroy({ where: { id: req.params.id } });
     if (deleted === 0)
       return res.status(404).json({ Message: "Pelicula no encontrada" });
     res.status(200).json({ Message: "Pelicula eliminada." });
